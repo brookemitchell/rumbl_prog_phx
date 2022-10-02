@@ -20,6 +20,7 @@ defmodule RumblWeb.Router do
 
     resources "/users", UserController, only: [:index, :show, :new, :create]
     resources "/sessions", SessionController, only: [:new, :create, :delete]
+    resources "/videos", VideoController
     get "/", PageController, :index
   end
 
