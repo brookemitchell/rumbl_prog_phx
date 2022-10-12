@@ -1,4 +1,4 @@
-defmodule Rumble.TestHelpers do
+defmodule Rumbl.TestHelpers do
   alias Rumbl.{Accounts, Multimedia}
 
   def user_fixture(attrs \\ %{}) do
@@ -7,7 +7,7 @@ defmodule Rumble.TestHelpers do
       |> Enum.into(%{
         name: "Some User",
         username: "user#{System.unique_integer([:positive])}",
-        password: attrs.password || "supersecret"
+        password: attrs[:password] || "supersecret"
       })
       |> Accounts.register_user()
 
