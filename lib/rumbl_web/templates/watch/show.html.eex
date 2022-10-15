@@ -7,21 +7,21 @@
     <% end %>
   </div>
 
-  <div class="column">
+  <div class="column annotations">
     <h3>Annotations</h3>
 
-    <div id="msg-containter"></div>
+    <div id="msg-container"></div>
+
+    <div>
+      <textarea id="msg-input"
+                rows="3"
+                placeholder="Comment..."></textarea>
+
+      <button id="msg-submit" class="button column"
+              type="submit">
+        Post
+      </button>
+
+    </div>
   </div>
-
-  <div>
-    <textarea id="msg-input"
-              rows="3"
-              placeholder="Comment..."></textarea>
-
-    <button id="msg-submit" class="button column"
-            type="submit">
-      Post
-    </button>
-  </div>
-
 </div>
