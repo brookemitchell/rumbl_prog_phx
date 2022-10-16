@@ -50,6 +50,6 @@ liveSocket.connect();
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket;
 
-let socket = new Socket('/ws');
+import socket from './socket';
 
 Video.init(socket, document.getElementById('video'));

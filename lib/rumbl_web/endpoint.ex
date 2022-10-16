@@ -11,7 +11,9 @@ defmodule RumblWeb.Endpoint do
   ]
 
   socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
-  socket "/ws", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
+
+  socket "/socket", Phoenix.LiveView.Socket,
+    websocket: [connect_info: [session: @session_options]]
 
   # Serve at "/" the static files from "priv/static" directory.
   #
