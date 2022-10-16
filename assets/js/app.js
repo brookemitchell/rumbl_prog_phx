@@ -12,7 +12,6 @@ import '../css/app.css';
 // import them using relative paths:
 //
 //     import "../vendor/some-package.js"
-import './player.js';
 //
 // Alternatively, you can `npm install some-package --prefix assets` and import
 // them using a path starting with the package name:
@@ -26,11 +25,13 @@ import 'phoenix_html';
 import { Socket } from 'phoenix';
 import { LiveSocket } from 'phoenix_live_view';
 import topbar from '../vendor/topbar';
-import Player from './player.js';
+
+import Video from './video';
 
 let csrfToken = document
   .querySelector("meta[name='csrf-token']")
   .getAttribute('content');
+
 let liveSocket = new LiveSocket('/live', Socket, {
   params: { _csrf_token: csrfToken },
 });
@@ -49,10 +50,6 @@ liveSocket.connect();
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket;
 
-let video = document.getElementById('video');
+let socket = new Socket('/ws');
 
-if (video) {
-  Player.init(video.id, video.getAttribute('data-player-id'), () => {
-    console.log('player ready!');
-  });
-}
+Video.init(socket, document.getElementById('video'));

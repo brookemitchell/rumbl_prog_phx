@@ -11,7 +11,6 @@ let Player = {
   },
 
   onIframeReady(domId, playerId, onReady) {
-    // console.log(YT.Player);
     this.player = new YT.Player(domId, {
       height: '360',
       width: '420',
