@@ -1,5 +1,4 @@
 defmodule RumblWeb.Auth do
-  # use RumblWeb, :controller
   import Phoenix.Controller
   import Plug.Conn
 
