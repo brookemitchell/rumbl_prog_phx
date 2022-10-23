@@ -25,6 +25,7 @@ let Video = {
 
     template.innerHTML = `
       <a href="#" data-seek="${this.esc(at)}">
+        [${this.formatTime(at)}]
         <b>${this.esc(user.username)}</b>: ${this.esc(body)}
       </a>
       `;
@@ -37,7 +38,7 @@ let Video = {
     let msgContainer = document.getElementById('msg-container');
     let msgInput = document.getElementById('msg-input');
     let postButton = document.getElementById('msg-submit');
-    let vidChannel = socket.channel(`videos:${videoId}`);
+    let vidChannel = socket.channel(`videos:${videoId}`, {});
 
     postButton.addEventListener('click', (e) => {
       let payload = { body: msgInput.value, at: Player.getCurrentTime() };
@@ -49,16 +50,44 @@ let Video = {
     });
 
     vidChannel.on('new_annotation', (resp) => {
-      console.log({ resp });
       this.renderAnnotation(msgContainer, resp);
     });
 
     vidChannel
       .join()
-      .receive('ok', (resp) => console.log('joined the video channel', resp))
+      .receive('ok', ({ annotations }) => {
+        this.scheduleMessages(msgContainer, annotations);
+      })
       .receive('error', (reason) => console.log('join failed', reason));
 
     vidChannel.on('ping', ({ count }) => console.log('PING', count));
+  },
+
+  scheduleMessages(msgContainer, annotations) {
+    clearTimeout(this.scheduleTimer);
+
+    this.scheduleTimer = setTimeout(() => {
+      let ctime = Player.getCurrentTime();
+      let remaining = this.renderAtTime(annotations, ctime, msgContainer);
+      this.scheduleMessages(msgContainer, remaining);
+    }, 1000);
+  },
+
+  renderAtTime(annotations, seconds, msgContainer) {
+    return annotations.filter((ann) => {
+      if (ann.at > seconds) {
+        return true;
+      } else {
+        this.renderAnnotation(msgContainer, ann);
+        return false;
+      }
+    });
+  },
+
+  formatTime(at) {
+    let date = new Date(null);
+    date.setSeconds(at / 1000);
+    return date.toISOString().substring(11, 16);
   },
 };
 
