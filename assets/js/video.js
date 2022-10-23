@@ -40,6 +40,16 @@ let Video = {
     let postButton = document.getElementById('msg-submit');
     let vidChannel = socket.channel(`videos:${videoId}`, {});
 
+    msgContainer.addEventListener('click', (e) => {
+      e.preventDefault();
+      let seconds =
+        e.target.getAttribute('data-seek') ||
+        e.target.parentNode.getAttribute('data-seek');
+      if (!seconds) return;
+
+      Player.seekTo(seconds);
+    });
+
     postButton.addEventListener('click', (e) => {
       let payload = { body: msgInput.value, at: Player.getCurrentTime() };
       vidChannel
